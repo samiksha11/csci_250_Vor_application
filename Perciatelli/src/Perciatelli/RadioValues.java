@@ -10,9 +10,28 @@ import java.util.Random;
 
 public class RadioValues      // class RadioValues
 {
-//public static void main(String[] args)
-//{
-//}
+public static void main(String[] args)
+{ 
+               
+		RadioValues rad = new RadioValues(0);
+		for(int x = 0; x < 10; x++){
+			//radio Radial, station code, signal Quality, pilot Radial
+			int ID = rad.generateID(); 
+                        String sigQ = rad.generateSignalQuality(); 
+                        double radi = rad.generateRadial();
+			//System.out.println("**DEBUG** ID = " + ID + " Quality = " + sigQ + " Radial " + radi);
+			
+			try {
+				Thread.sleep(2000); //sleep 2 seconds
+			} catch (InterruptedException e) 
+                        {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+}
+
+
 	int test;
 	int counter = 10;               // Added the counter as 10
 	int spotID1 = test + 353;       // Final Station ID  
@@ -55,7 +74,7 @@ public class RadioValues      // class RadioValues
                 {
 			return "Good signal";
 		}
-		if(this.counter < 5)
+                else if(this.counter < 5)
                 {
 			this.counter--;
 			System.out.println(""
@@ -72,7 +91,9 @@ public class RadioValues      // class RadioValues
 			return "bad signal";
 		}
 		return "Good Signal";
+                
 	}
-        
 }
+
+ 
 
