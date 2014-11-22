@@ -192,7 +192,7 @@ class VORmeter extends JPanel{
 	public double MeterSlope(double x1, double y1, double x2, double y2){
         //public double MeterSlope(double x,double y){
 		
-            double deltaY = y1 - y1;
+            double deltaY = y2 - y1;
           double  deltaX = x2 - x1;
           double RC = deltaY / deltaX;
 
