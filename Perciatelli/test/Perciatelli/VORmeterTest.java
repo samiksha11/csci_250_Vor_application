@@ -47,11 +47,10 @@ public class VORmeterTest {
         VORmeter instance = new VORmeter();
         
         Dimension expResult = new Dimension(500,500);
-        //Dimension expResult = null;
+       
         Dimension result = instance.getPreferredSize();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -66,8 +65,7 @@ public class VORmeterTest {
         double slope = 1.0;
         VORmeter instance = new VORmeter();
         instance.findPoint(x, y, distance, slope);
-        // TODO review the generated test code and remove the default call to fail.
-       // fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -80,8 +78,7 @@ public class VORmeterTest {
         float r = 0.0F;
         VORmeter instance = new VORmeter();
         instance.MeterCoordinate(Meterdegree, r);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -98,8 +95,7 @@ public class VORmeterTest {
         double expResult = 1.0;
         double result = instance.MeterSlope(x1, y1, x2, y2);
         assertEquals(expResult, result, 1.0);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        
     }
      public void testMeterSlope_1() {
         System.out.println("MeterSlope");
@@ -111,8 +107,7 @@ public class VORmeterTest {
         double expResult = 1.0;
         double result = instance.MeterSlope(x1, y1, x2, y2);
         assertEquals(expResult, result, 1.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
     /**
      * Test of paintComponent method, of class VORmeter.
