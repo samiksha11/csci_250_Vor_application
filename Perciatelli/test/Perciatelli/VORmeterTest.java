@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author samiksha solank
+ * @author samiksha solanki
  */
 public class VORmeterTest {
     
