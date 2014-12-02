@@ -104,9 +104,9 @@ class update_1 extends Thread
                RadioValues rad = new RadioValues(0);
                 VORCAL tr = new VORCAL();
 		      int x= 0;
-    for(x=0;x<10;x++)
-                      {
-                          int a = rad.generateID();
+                     while (x<10)
+                {       
+                         int a = rad.generateID();
                         String sigQ = rad.generateSignalQuality(); 
                         double radi = rad.generateRadial();
 		        
@@ -116,8 +116,9 @@ class update_1 extends Thread
 			global.dir = tr.direction_VOR;
 			//update gui
 			label.repaint();
-			 
-                      }
+			
+                        x++;
+		}
                  
                 
 	}
@@ -147,7 +148,8 @@ class VORmeter extends JPanel
 	// @param y
 	 // @param distance
 	 //
-	public void findPoint(double x, double y, double distance, double slope){
+	public void findPoint(double x, double y, double distance, double slope)
+        {
 		x1 = (distance/Math.sqrt(1 + Math.pow(slope, 2))) + x;
 		y1 = ((slope*distance)/Math.sqrt(1 + Math.pow(slope, 2))) + y;
 	}
@@ -208,6 +210,8 @@ class VORmeter extends JPanel
           double  deltaX = x2 - x1;
           double RC = deltaY / deltaX;
 
+    
+
              if (deltaY == 0)
          {
           System.out.println("The slope is 0, no linear line.");
@@ -240,16 +244,17 @@ class VORmeter extends JPanel
                 while (j<= 310)
                 {
                    
-			if(j == 210)
-                        {
-				 //  center line
-                                g.drawLine(j, 170, j, 250);
-                               
-			}
-			else{
-				// all other marks in meter
-                                g.drawLine(j, 205, j, 215);
-			}
+              switch(j)
+                    {
+                        case 210:
+                         g.drawLine(j, 170, j, 250);
+                            break;
+                        default :
+                         g.drawLine(j, 205, j, 215);
+ 
+                                
+  
+                    }
                         j= j+20;
 		}
 		//draw 
