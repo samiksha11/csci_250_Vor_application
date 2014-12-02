@@ -244,17 +244,16 @@ class VORmeter extends JPanel
                 while (j<= 310)
                 {
                    
-              switch(j)
-                    {
-                        case 210:
-                         g.drawLine(j, 170, j, 250);
-                            break;
-                        default :
-                         g.drawLine(j, 205, j, 215);
- 
-                                
-  
-                    }
+			if(j == 210)
+                        {
+				 //  center line
+                                g.drawLine(j, 170, j, 250);
+                               
+			}
+			else{
+				// all other marks in meter
+                                g.drawLine(j, 205, j, 215);
+			}
                         j= j+20;
 		}
 		//draw 
@@ -264,20 +263,26 @@ class VORmeter extends JPanel
               
 		
 		//draw TO FROM
-		if(global.dir.equals("TO"))
+                switch(global.dir)
                 {
-			g.drawString("TO", 280, 170);
-		}
-		if(global.dir.equals("FROM"))
-                {
-			g.drawString("FR", 280, 260);
-			
-                }
-		if(global.dir.equals("RED"))
-                {
-			g.drawString("TO", 280, 170);
+                    case "TO":
+                       			
+                        g.drawString("TO", 280, 170);
+
+                        break;
+                    case "FROM":
+                        g.drawString("FR", 280, 260);
+                        
+
+                        break;
+                    case "RED":
+                        g.drawString("TO", 280, 170);
 			g.drawString("FROM", 280, 260);
-		}
+                        break;
+                        
+                        
+                }
+//
 		
 		// moving station IDs
 		
