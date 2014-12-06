@@ -1,4 +1,4 @@
-*
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -17,23 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- *
- * @author samiksha solanki
- */
-//public class Interface {
-    
-
-/* Team Perciatelli;
- * VOR application
- * java 
- * IDE Netbeans.
- */
-//package Perciatelli;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.geom.Ellipse2D;
+import javax.swing.JTextField;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -47,25 +35,25 @@ public class Interface implements ActionListener{
 		Interface VOR = new Interface();
 		 view.setContentPane(VOR.label);
 	        view.getContentPane().setBackground(Color.YELLOW); 
-                view.getContentPane().setPreferredSize(new Dimension(500, 500));
+                view.getContentPane().setPreferredSize(new Dimension(1000, 1000));
 		view.pack();
 		view.setVisible(true);
-	}
+                
+                	}
 	JPanel label = new JPanel(); //panel holding everything
-	JLabel title = new JLabel("VOR DRIVER");
+	JLabel title = new JLabel("VOR");
 	JPanel middle = new JPanel(); //panel holding buttons on bottom
 	
 	JButton start = new JButton("Start");
 	JButton stop = new JButton("STOP");
-	JButton forward = new JButton("forward");   // move the vor forward
-        JButton back = new JButton("backward");   //move the vor backward
-	
-	//Meter meter = new meter();
+	JButton forward = new JButton("SET OBS FORWARD");   // move the vor forward
+        JButton back = new JButton("SET OBS BACKWARD");   //move the vor backward
+        JTextField numberEnter = new JTextField("",20);
+        
 	
 	
 	public Interface(){
 		
-		//title.setFont(new Font("Courier",Font.BOLD,35));
 		label.add(title,BorderLayout.PAGE_START);
 		label.add(new VORmeter());
 		label.add(middle,BorderLayout.PAGE_END);
@@ -77,16 +65,19 @@ public class Interface implements ActionListener{
 		middle.add(back);
 		forward.addActionListener(this);
 		middle.add(forward);
+                //middle.addActionListener(this);
+                middle. add(numberEnter);
+                
 		
 	}
 	@Override
 	public void actionPerformed(ActionEvent ae) {
             VORCAL vor = new VORCAL();
             double vor_OBS = (double) vor.OBS;
-		// TODO Auto-generated method stub
+		
 		if(ae.getSource() == forward){
-			//global.offset -= 5;
-                    global.offset = global.offset - 15;
+			
+                    global.offset = global.offset - 5;
                         //System.out.println("Pilot Radial: " + OBS);
 			
 			label.repaint();
@@ -94,8 +85,8 @@ public class Interface implements ActionListener{
 		}
 		if(ae.getSource() == back)
                 {
-			//global.offset += 5;
-                    global.offset = global.offset + 15;
+			
+                    global.offset = global.offset + 5;
 			System.out.println("Offset = " + global.offset);
 			//System.out.println("Degree is: " + global.getDegree(0, global.offset));
 			label.repaint();
@@ -106,11 +97,33 @@ public class Interface implements ActionListener{
 		if(ae.getSource() == start){
 			//back.setEnabled(false);
 			//forward.setEnabled(false);
+                  //  JTextField numberEnter = new JTextField("Station ID: " + global.ID,20);
+                    //middle. add(numberEnter);
+                                  //      String strI = String.valueOf(global.ID);
+                 //   System.out.println("string is "+global.ID);
+                   //  numberEnter.setText(strI);
+                    int b = stationID_value();
+                                        System.out.println("string test1"+b);
+
+String strI;
+                strI = Integer.toString(b);
+                    numberEnter.setText(strI);
+                                        System.out.println("string test2"+strI);
+
 			start.setEnabled(false);
 			update up = new update(this.label);
 			up.start();
+                       
 		}
 	}
+
+    private int stationID_value() 
+    {
+    int a = global.ID;
+System.out.println("string test2"+a);
+return a;
+
+    }
 
 }
 class update_1 extends Thread{
@@ -220,6 +233,7 @@ class VORmeter extends JPanel{
 		
 		
 	}
+    
 	
 	public double MeterSlope(double x1, double y1, double x2, double y2)
         {
@@ -245,14 +259,7 @@ class VORmeter extends JPanel{
 	}
 	@Override
 	
-        
-        
-        
-        
-        
-        
-        
-        public void paintComponent(Graphics g)
+         public void paintComponent(Graphics g)
         {
 		super.paintComponent(g);
                 Graphics2D g2D = (Graphics2D) g;    
@@ -285,10 +292,7 @@ class VORmeter extends JPanel{
 		}
 		//draw 
 		g.drawLine(60,210,80,210);
-                
-		
               
-		
 		//draw TO FROM
 		if(global.dir.equals("TO"))
                 {
@@ -311,7 +315,8 @@ class VORmeter extends JPanel{
 		g.drawString("Station ID: " + global.ID, 100, 450);
                 g.drawString("Signal Quality: " + global.sigQuality, 100, 460);
                 g.drawString("obs: " + global.OBS, 100, 470);
-              
+                //JTextField numberEnter = new JTextField("Station ID: " + global.ID);
+                
 		
 		//draw the obs (moving)
                 int x = 0;
@@ -334,26 +339,22 @@ class VORmeter extends JPanel{
 		
 		//draw N S W E symbols (moving)
 		this.MeterCoordinate(0 + global.offset, 170); // for North
-		//g.drawString("North", (int)x1, (int)y1);
-                //this.MeterCoordinate(0 + global.offset, 63); // for North
+		
 		g.drawString("North", (int)x1, (int)y1);
 		
 		this.MeterCoordinate(90  + global.offset, 170); // for East
-		//g.drawString("East", (int)x1, (int)y1);
-                //this.MeterCoordinate(90  + global.offset, 63); // for East
+		
 		g.drawString("East", (int)x1, (int)y1);
 		
 		this.MeterCoordinate(180  + global.offset, 170); // for South
-		//g.drawString("South", (int)x1, (int)y1);
-                //this.MeterCoordinate(180  + global.offset, 60); // for South
+		
 		g.drawString("South", (int)x1, (int)y1);
 		
-		this.MeterCoordinate(270  + global.offset, 170); // for West
-		//g.drawString("West", (int)x1, (int)y1);
                 this.MeterCoordinate(270  + global.offset, 170); // for West
 		g.drawString("West", (int)x1, (int)y1);
 		
 	}
+ 
 	
 }
 
@@ -377,4 +378,11 @@ class global{
 	}
 	
 }
+
+
+
+
+
+
+
 
