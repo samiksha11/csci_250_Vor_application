@@ -1,9 +1,35 @@
+*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package perciatelli_final;
+
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author samiksha solanki
+ */
+//public class Interface {
+    
+
 /* Team Perciatelli;
  * VOR application
  * java 
  * IDE Netbeans.
  */
-package Perciatelli;
+//package Perciatelli;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -55,17 +81,23 @@ public class Interface implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+            VORCAL vor = new VORCAL();
+            double vor_OBS = (double) vor.OBS;
 		// TODO Auto-generated method stub
 		if(ae.getSource() == forward){
-			global.offset -= 5;
-			//System.out.println("Offset = " + global.offset);
-			//System.out.println("Degree is: " + global.getDegree(0, global.offset));
+			//global.offset -= 5;
+                    global.offset = global.offset - 15;
+                        //System.out.println("Pilot Radial: " + OBS);
+			
 			label.repaint();
+                        System.out.println("Pilot Radial: " + vor_OBS);
 		}
-		if(ae.getSource() == back){
-			global.offset += 5;
+		if(ae.getSource() == back)
+                {
+			//global.offset += 5;
+                    global.offset = global.offset + 15;
 			System.out.println("Offset = " + global.offset);
-			System.out.println("Degree is: " + global.getDegree(0, global.offset));
+			//System.out.println("Degree is: " + global.getDegree(0, global.offset));
 			label.repaint();
 		}
 		if(ae.getSource() == stop){
@@ -98,7 +130,7 @@ class update_1 extends Thread{
                         String sigQ = rad.generateSignalQuality(); 
                         double radi = rad.generateRadial();
 		        
-                      //myvor.newSignal( global.getDegree(0, global.offset));
+                      
                         tr.newSignal(radi, a, sigQ, global.getDegree(0, global.offset));
 			//update global variable
 			global.dir = tr.direction_VOR;
@@ -124,17 +156,17 @@ class VORmeter extends JPanel{
          }
       
 
-      /*
+      
     
 
 
-        //JPanel label = new JPanel();
-	/**
-	 * Find the point located a certain distance away from (x, y) with given slope.
-	 * @param x
-	 * @param y
-	 * @param distance
-	 */
+        
+	//
+	// Find the point located a certain distance away from (x, y) with given slope.
+	// @param x
+	// @param y
+	 // @param distance
+	 //
 	public void findPoint(double x, double y, double distance, double slope){
 		x1 = (distance/Math.sqrt(1 + Math.pow(slope, 2))) + x;
 		y1 = ((slope*distance)/Math.sqrt(1 + Math.pow(slope, 2))) + y;
@@ -189,8 +221,9 @@ class VORmeter extends JPanel{
 		
 	}
 	
-	public double MeterSlope(double x1, double y1, double x2, double y2){
-        //public double MeterSlope(double x,double y){
+	public double MeterSlope(double x1, double y1, double x2, double y2)
+        {
+        
 		
             double deltaY = y2 - y1;
           double  deltaX = x2 - x1;
@@ -211,7 +244,15 @@ class VORmeter extends JPanel{
              return RC;
 	}
 	@Override
-	public void paintComponent(Graphics g)
+	
+        
+        
+        
+        
+        
+        
+        
+        public void paintComponent(Graphics g)
         {
 		super.paintComponent(g);
                 Graphics2D g2D = (Graphics2D) g;    
@@ -220,10 +261,12 @@ class VORmeter extends JPanel{
                 
                 
 		g.drawOval(10, 10, 400, 400);
+                //g.drawOval(10, 10, 40, 40);
                 
-		g.drawOval(60, 60, 300, 300); 
+		//g.drawOval(60, 60, 300, 300); 
+                g.drawOval(60, 60, 300, 300);
                 g.drawOval(50,60,50,50);
-		
+               
                 int j = 110;
                 while (j<= 310)
                 {
@@ -240,7 +283,7 @@ class VORmeter extends JPanel{
 			}
                         j= j+20;
 		}
-		//draw | markers
+		//draw 
 		g.drawLine(60,210,80,210);
                 
 		
@@ -262,19 +305,28 @@ class VORmeter extends JPanel{
 			g.drawString("FROM", 280, 260);
 		}
 		
-		//draw stationID (moving)
+		// moving station IDs
 		
+               
 		g.drawString("Station ID: " + global.ID, 100, 450);
                 g.drawString("Signal Quality: " + global.sigQuality, 100, 460);
+                g.drawString("obs: " + global.OBS, 100, 470);
+              
 		
-		//draw the outer markers (moving)
+		//draw the obs (moving)
                 int x = 0;
                 while(x<= 360)
                 {
-			this.MeterCoordinate(x + global.offset, 150);
-			g.drawOval((int)x1 - 2, (int)y1 - 2, 4, 4);
+			//this.MeterCoordinate(x + global.offset, 150);
+                        this.MeterCoordinate(x + global.offset, 50);
+			//g.drawOval((int)x1 - 2, (int)y1 - 2, 4, 4);
+                      // g.drawOval((int)x1 - 2, (int)y1 + 5, 6, 6);
                         
+                        g.drawOval((int)x1 - 12, (int)y1 + 12, 14, 14);
+                       // g.drawOval((int)x1 - 30, (int)y1 - 30, 30, 30);
+                         //g.drawOval(50,60,50,50);
                         x= x+15;
+                         
 		}
 		//draw VOR needle
                 double a= (10 * global.bar);
@@ -282,15 +334,23 @@ class VORmeter extends JPanel{
 		
 		//draw N S W E symbols (moving)
 		this.MeterCoordinate(0 + global.offset, 170); // for North
+		//g.drawString("North", (int)x1, (int)y1);
+                //this.MeterCoordinate(0 + global.offset, 63); // for North
 		g.drawString("North", (int)x1, (int)y1);
 		
 		this.MeterCoordinate(90  + global.offset, 170); // for East
+		//g.drawString("East", (int)x1, (int)y1);
+                //this.MeterCoordinate(90  + global.offset, 63); // for East
 		g.drawString("East", (int)x1, (int)y1);
 		
 		this.MeterCoordinate(180  + global.offset, 170); // for South
+		//g.drawString("South", (int)x1, (int)y1);
+                //this.MeterCoordinate(180  + global.offset, 60); // for South
 		g.drawString("South", (int)x1, (int)y1);
 		
 		this.MeterCoordinate(270  + global.offset, 170); // for West
+		//g.drawString("West", (int)x1, (int)y1);
+                this.MeterCoordinate(270  + global.offset, 170); // for West
 		g.drawString("West", (int)x1, (int)y1);
 		
 	}
@@ -303,7 +363,9 @@ class global{
         public static String sigQuality = "";
 	public static double bar = 0; //deflection needle, 10 is max
 	public static String dir = ""; //to, from
-	public static double getDegree(double original, double offset){
+        public static float OBS = 0;
+	public static double getDegree(double original, double offset)
+        {
 		double Meterdegree = original - offset;
 		while(Meterdegree < 0){
 			Meterdegree =  Meterdegree + 360;
@@ -315,3 +377,4 @@ class global{
 	}
 	
 }
+
