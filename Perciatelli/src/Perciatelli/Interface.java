@@ -48,7 +48,7 @@ public class Interface implements ActionListener{
 	JButton stop = new JButton("STOP");
 	JButton forward = new JButton("SET OBS FORWARD");   // move the vor forward
         JButton back = new JButton("SET OBS BACKWARD");   //move the vor backward
-        JTextField numberEnter = new JTextField("",20);
+        JTextField numberEnter = new JTextField(" Relationship between the postition of airplane and VOR",40);
         
 	
 	
@@ -77,8 +77,8 @@ public class Interface implements ActionListener{
 		
 		if(ae.getSource() == forward){
 			
-                    global.offset = global.offset - 5;
-                        //System.out.println("Pilot Radial: " + OBS);
+                    universal.offset = universal.offset - 5;
+                        
 			
 			label.repaint();
                         System.out.println("Pilot Radial: " + vor_OBS);
@@ -86,9 +86,9 @@ public class Interface implements ActionListener{
 		if(ae.getSource() == back)
                 {
 			
-                    global.offset = global.offset + 5;
-			System.out.println("Offset = " + global.offset);
-			//System.out.println("Degree is: " + global.getDegree(0, global.offset));
+                    universal.offset = universal.offset + 5;
+			System.out.println("Offset = " + universal.offset);
+			
 			label.repaint();
 		}
 		if(ae.getSource() == stop){
@@ -97,18 +97,18 @@ public class Interface implements ActionListener{
 		if(ae.getSource() == start){
 			//back.setEnabled(false);
 			//forward.setEnabled(false);
-                  //  JTextField numberEnter = new JTextField("Station ID: " + global.ID,20);
+                  //  JTextField numberEnter = new JTextField("Station ID: " + universal.ID,20);
                     //middle. add(numberEnter);
-                                  //      String strI = String.valueOf(global.ID);
-                 //   System.out.println("string is "+global.ID);
+                                  //      String strI = String.valueOf(universal.ID);
+                 //   System.out.println("string is "+universal.ID);
                    //  numberEnter.setText(strI);
-                    int b = stationID_value();
-                                        System.out.println("string test1"+b);
+                    //int b = stationID_value();
+                                        //System.out.println("string test1"+b);
 
-String strI;
-                strI = Integer.toString(b);
-                    numberEnter.setText(strI);
-                                        System.out.println("string test2"+strI);
+                  //String strI;
+                //strI = Integer.toString(b);
+                   // numberEnter.setText(strI);
+                                        //System.out.println("string test2"+strI);
 
 			start.setEnabled(false);
 			update up = new update(this.label);
@@ -119,7 +119,7 @@ String strI;
 
     private int stationID_value() 
     {
-    int a = global.ID;
+    int a = universal.ID;
 System.out.println("string test2"+a);
 return a;
 
@@ -144,9 +144,9 @@ class update_1 extends Thread{
                         double radi = rad.generateRadial();
 		        
                       
-                        tr.newSignal(radi, a, sigQ, global.getDegree(0, global.offset));
-			//update global variable
-			global.dir = tr.direction_VOR;
+                        tr.all_Signal_Values(radi, a, sigQ, universal.getDegree(0, universal.offset));
+			//update universal variable
+			universal.dir = tr.direction_VOR;
 			//update gui
 			label.repaint();
 			
@@ -166,13 +166,7 @@ class VORmeter extends JPanel{
         
        {
         return new Dimension(500,500);
-         }
-      
-
-      
-    
-
-
+       }
         
 	//
 	// Find the point located a certain distance away from (x, y) with given slope.
@@ -267,12 +261,9 @@ class VORmeter extends JPanel{
                 g2D.setStroke(new BasicStroke(5F));   // width of the  VOR_Meter
                 
                 
-		g.drawOval(10, 10, 400, 400);
-                //g.drawOval(10, 10, 40, 40);
-                
-		//g.drawOval(60, 60, 300, 300); 
-                g.drawOval(60, 60, 300, 300);
-                g.drawOval(50,60,50,50);
+		g.drawOval(10, 10, 400, 400); 
+               // g.drawOval(60, 60, 300, 300);
+                //g.drawOval(50,60,50,50);
                
                 int j = 110;
                 while (j<= 310)
@@ -280,12 +271,12 @@ class VORmeter extends JPanel{
                    
 			if(j == 210)
                         {
-				 //  center line
+				 
                                 g.drawLine(j, 170, j, 250);
                                
 			}
 			else{
-				// all other marks in meter
+				
                                 g.drawLine(j, 205, j, 215);
 			}
                         j= j+20;
@@ -294,63 +285,55 @@ class VORmeter extends JPanel{
 		g.drawLine(60,210,80,210);
               
 		//draw TO FROM
-		if(global.dir.equals("TO"))
+		if(universal.dir.equals("TO"))
                 {
 			g.drawString("TO", 280, 170);
 		}
-		if(global.dir.equals("FROM"))
+		if(universal.dir.equals("FROM"))
                 {
-			g.drawString("FR", 280, 260);
+			g.drawString("FROM", 280, 260);
 			
                 }
-		if(global.dir.equals("RED"))
-                {
-			g.drawString("TO", 280, 170);
-			g.drawString("FROM", 280, 260);
-		}
+//		
 		
 		// moving station IDs
 		
                
-		g.drawString("Station ID: " + global.ID, 100, 450);
-                g.drawString("Signal Quality: " + global.sigQuality, 100, 460);
-                g.drawString("obs: " + global.OBS, 100, 470);
-                //JTextField numberEnter = new JTextField("Station ID: " + global.ID);
+		g.drawString("Station ID: " + universal.ID, 100, 450);
+                g.drawString("Signal Quality: " + universal.sigQuality, 100, 460);
+                g.drawString("obs: " + universal.OBS, 100, 470);
+                
+                //JTextField numberEnter = new JTextField("Station ID: " + universal.ID);
                 
 		
 		//draw the obs (moving)
-                int x = 0;
+               /* int x = 0;
                 while(x<= 360)
                 {
-			//this.MeterCoordinate(x + global.offset, 150);
-                        this.MeterCoordinate(x + global.offset, 50);
-			//g.drawOval((int)x1 - 2, (int)y1 - 2, 4, 4);
-                      // g.drawOval((int)x1 - 2, (int)y1 + 5, 6, 6);
-                        
-                        g.drawOval((int)x1 - 12, (int)y1 + 12, 14, 14);
-                       // g.drawOval((int)x1 - 30, (int)y1 - 30, 30, 30);
-                         //g.drawOval(50,60,50,50);
+			
+                        this.MeterCoordinate(x + universal.offset, 50);
+			 g.drawOval((int)x1 - 12, (int)y1 + 12, 14, 14);
                         x= x+15;
                          
-		}
+		}*/
 		//draw VOR needle
-                double a= (10 * global.bar);
+                double a= (10 * universal.bar);
                g.drawLine(210 + (int) a , 210 + 50, 210 + (int) a, 160);
 		
 		//draw N S W E symbols (moving)
-		this.MeterCoordinate(0 + global.offset, 170); // for North
+		this.MeterCoordinate(0 + universal.offset, 170); // for North
 		
 		g.drawString("North", (int)x1, (int)y1);
 		
-		this.MeterCoordinate(90  + global.offset, 170); // for East
+		this.MeterCoordinate(90  + universal.offset, 170); // for East
 		
 		g.drawString("East", (int)x1, (int)y1);
 		
-		this.MeterCoordinate(180  + global.offset, 170); // for South
+		this.MeterCoordinate(180  + universal.offset, 170); // for South
 		
 		g.drawString("South", (int)x1, (int)y1);
 		
-                this.MeterCoordinate(270  + global.offset, 170); // for West
+                this.MeterCoordinate(270  + universal.offset, 170); // for West
 		g.drawString("West", (int)x1, (int)y1);
 		
 	}
@@ -358,7 +341,7 @@ class VORmeter extends JPanel{
 	
 }
 
-class global{
+class universal{
 	public static int offset = 0;
 	public static int ID = 0;
         public static String sigQuality = "";
