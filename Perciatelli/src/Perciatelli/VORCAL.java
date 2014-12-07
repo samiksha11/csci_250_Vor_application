@@ -9,15 +9,18 @@ import javax.swing.JPanel;
  *
  * @author samiksha solanki
  */
-public class VORCAL {
+public class VORCAL 
+{
 	public static void main(String[] args)
 {
                 VORCAL myvor = new VORCAL();
 		RadioValues rad = new RadioValues(0);
-		for(int x = 0; x < 10; x++)
+
+                int x = 0;
+                
+                while(x< 10)
                 {
-                //radio Radial, station code, signal Quality, pilot Radial
-			int ID = rad.generateID(); 
+                    int ID = rad.generateID(); 
                         String sigQ = rad.generateSignalQuality(); 
                         double radi = rad.generateRadial();
 		         System.out.println("******************************************************");
@@ -26,7 +29,9 @@ public class VORCAL {
                         System.out.println("Radial " + radi);
                         System.out.println("******************************************************");
 			myvor.newSignal(radi, ID, sigQ, global.getDegree(0, global.offset));
-                        }
+                        x++;
+                        
+                }
 }
 	// retrieve input from the radio class
 	int ID;
@@ -255,4 +260,3 @@ class update extends Thread{
 		}
 	}
 }
-
