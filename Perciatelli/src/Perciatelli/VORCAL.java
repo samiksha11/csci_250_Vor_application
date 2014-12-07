@@ -1,7 +1,19 @@
 /*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package perciatelli_final;
+
+/**
+ *
+ * @author samiksha solanki
+ */
+
+
+/*
  * VOR calculation class
  */
-package Perciatelli;
+//package Perciatelli;
 
 import javax.swing.JPanel;
 
@@ -9,18 +21,15 @@ import javax.swing.JPanel;
  *
  * @author samiksha solanki
  */
-public class VORCAL 
-{
+public class VORCAL {
 	public static void main(String[] args)
 {
                 VORCAL myvor = new VORCAL();
 		RadioValues rad = new RadioValues(0);
-
-                int x = 0;
-                
-                while(x< 10)
+		for(int x = 0; x < 15; x++)
                 {
-                    int ID = rad.generateID(); 
+                //radio Radial, station code, signal Quality, pilot Radial
+			int ID = rad.generateID(); 
                         String sigQ = rad.generateSignalQuality(); 
                         double radi = rad.generateRadial();
 		         System.out.println("******************************************************");
@@ -28,10 +37,8 @@ public class VORCAL
                         System.out.println(" Quality = " + sigQ );
                         System.out.println("Radial " + radi);
                         System.out.println("******************************************************");
-			myvor.newSignal(radi, ID, sigQ, global.getDegree(0, global.offset));
-                        x++;
-                        
-                }
+			myvor.all_Signal_Values(radi, ID, sigQ, universal.getDegree(0, universal.offset));
+                        }
 }
 	// retrieve input from the radio class
 	int ID;
@@ -41,7 +48,7 @@ public class VORCAL
 	
 	// OBS values from the pilot
 	
-	double pilot_radian; 
+	double OBS; 
         
 	
 	
@@ -62,32 +69,34 @@ public class VORCAL
 	 * @param Signal_Quality
 	 * @param radial_ended The radial from pilot.
 	 */
-	public void newSignal(double radial, int Station_ID_Code_value, String Signal_Quality, double radial_ended)
+	public void all_Signal_Values(double radial, int Station_ID_Code_value, String Signal_Quality, double radial_ended)
         {
             /* Calculated values, updated with every new signal*/
 
 		this.stationRad = radial; 
 		this.Station_ID_Code_value = Station_ID_Code_value; 
 		this.sigQuality = Signal_Quality;
-		this.pilot_radian = radial_ended;
+		this.OBS = radial_ended;
               //update calculated values
-		this.direction_VOR = calcToFrom(); //to, from or red
-                  double degOff = calcDeflection();
+		this.direction_VOR = To_and_From(); //to, from or red
+                  double degOff = deflection();
 		if(degOff > 10)
                 {
 		          degree_offset = 10;
-                        System.out.println("hello3");
+                        //System.out.println("hello3");
 		}
 		else
                 {
 			
                         degree_offset = degOff;
-                        System.out.println("hello2");
+                       // System.out.println("hello2");
 		}
+             
+                
+                
                 System.out.println("*********************************************************");
                 System.out.println("Radio Radial: " + stationRad);
-		System.out.println("Pilot Radial: " + pilot_radian);
-                
+		System.out.println("Pilot OBS: " + OBS);
                 System.out.println("Station Quality: " + sigQuality);
 		 System.out.println("*********************************************************");
                
@@ -99,28 +108,25 @@ public class VORCAL
                         System.out.println("Deflection in Needle: " + degree_offset + " bars");
 		}
 		if(this.needle_needle_side <0){
-			System.out.println("Direction: Left");    // needle direction
+			System.out.println("Direction: negative ");    
 		}
 		else if(this.needle_needle_side == 0)
                 {
 			System.out.println("Direction: Center");
 		}
 		else{
-			System.out.println("Direction: Right");
+			System.out.println("Direction: positive");
 		}
 		
                 System.out.println("To/From: " + direction_VOR);
-                System.out.println("Hello");
+                //System.out.println("Hello");
 	} 
 	
-	/**
-	 * 
-	 * @return negative = towards left, positive = towards right, 0 = center
-	 */
-	private double calcDeflection(){
+	
+	private double deflection(){
             
-		double deflect = Closer_Distance(pilot_radian, stationRad, true);
-		//closer to opposite needle_needle_side of pilot_radian, calculate deflection from there
+		double deflect = Closer_Distance(OBS, stationRad, true);
+		
 		if(deflect > 90)
                 {
 			deflect = 180 - deflect;
@@ -176,34 +182,34 @@ public class VORCAL
 		return AnticlkwiseDistance;
 	}
         /**
-	 *  from,to, based on pilot_radian and stationRad
+	 *  from,to, based on OBS and stationRad
 	 * */
        
-	private String calcToFrom(){
+	private String To_and_From(){
            
 		
             if(sigQuality.equals("bad")){
 			return "RED";
 		}
 		//condition radial in 90 degrees of pilot radial, direction_VOR  from
-		if(Closer_Distance(stationRad, pilot_radian, false) <89){
+		if(Closer_Distance(stationRad, OBS, false) <89){
 			return "FROM";
 		}
-		if(Closer_Distance(stationRad, pilot_radian, false) > 91){
+		if(Closer_Distance(stationRad, OBS, false) > 91){
 			return "TO";
 		}
 		//too close to 90 degrees, neither from nor to
 		return "RED";
 	}
-         public void print(String stationRad, String pilot_radian, int degree_offset, String direction_VOR){
+         public void print(String stationRad, String OBS, int degree_offset, String direction_VOR){
 		System.out.println("*************************************************");
 	        System.out.println("Radio Radial: " + stationRad);
-		System.out.println("Pilot Radial: " + pilot_radian);
+		System.out.println("Pilot Radial: " + OBS);
                 System.out.println("***************************************************");
 		
                     if(degree_offset > 10)
                 {
-			System.out.println("Deflection in Needle: 10 bars");
+			//System.out.println("Deflection in Needle: grt than 10 bars");
 		}
 		else{
 			
@@ -220,7 +226,7 @@ public class VORCAL
 		}
 		
                 System.out.println("To/From: " + direction_VOR);
-                System.out.println("Hello");
+                //System.out.println("Hello");
 	}
 
    
@@ -237,19 +243,19 @@ class update extends Thread{
 
             VORCAL myvor = new VORCAL();
 		RadioValues rad = new RadioValues(0);
-		for(int x = 0; x < 10; x++)
+		for(int x = 0; x < 15; x++)
                 {
 			//radio Radial, station code, signal Quality, pilot Radial
 			int ID = rad.generateID(); String sigQ = rad.generateSignalQuality(); double radi = rad.generateRadial();
 			
-			myvor.newSignal(radi, ID, sigQ, global.getDegree(0, global.offset));
-			//update global variables
-			global.bar = myvor.needle_needle_side * myvor.degree_offset;
-			global.ID = myvor.Station_ID_Code_value;
-			global.dir = myvor.direction_VOR;
-                        global.sigQuality = myvor.sigQuality;
+			myvor.all_Signal_Values(radi, ID, sigQ, universal.getDegree(0, universal.offset));
+			//update universal variables
+			universal.bar = myvor.needle_needle_side * myvor.degree_offset;
+			universal.ID = myvor.Station_ID_Code_value;
+			universal.dir = myvor.direction_VOR;
+                        universal.sigQuality = myvor.sigQuality;
                         
-			//update gui
+			
 			container.repaint();
 			try {
 				Thread.sleep(2000); //sleep 2 seconds
@@ -260,3 +266,4 @@ class update extends Thread{
 		}
 	}
 }
+
