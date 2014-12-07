@@ -1,9 +1,20 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package perciatelli_final;
+
+/**
+ *
+ * @author samiksha solanki
+ */
+
 /* Team : Perciatelli
  * IDE: NEt BEANS.
  * Project: VOR APPLICATION.
  * class: RADIO
  */
-package Perciatelli;
+
 
 
 import java.util.Random;
@@ -14,12 +25,8 @@ public static void main(String[] args)
 { 
                
 		RadioValues rad = new RadioValues(0);
-
-                int x = 0;
-                
-                while(x<10)
-                {
-                    //radio Radial, station code, signal Quality, pilot Radial
+		for(int x = 0; x < 10; x++){
+			//radio Radial, station code, signal Quality, pilot Radial
 			int ID = rad.generateID(); 
                         String sigQ = rad.generateSignalQuality(); 
                         double radi = rad.generateRadial();
@@ -32,9 +39,7 @@ public static void main(String[] args)
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-                        x++;
-                        
-                }
+		}
 }
 
 
@@ -83,7 +88,8 @@ public static void main(String[] args)
                 else if(this.counter < 5)
                 {
 			this.counter--;
-                   //     System.out.println(""+ "counter = " + this.counter);
+			System.out.println(""
+                                + "counter = " + this.counter);
 			return "bad signal";
 		}
 		
@@ -99,5 +105,7 @@ public static void main(String[] args)
                 
 	}
 }
+
  
+
 
